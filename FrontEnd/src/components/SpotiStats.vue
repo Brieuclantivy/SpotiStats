@@ -116,7 +116,8 @@
       source: String
     },
     methods: {
-      fetchUsers: function () {
+
+      /*fetchUsers: function () {
         var SpotifyWebApi = require('spotify-web-api-node');
         var spotifyApi = new SpotifyWebApi({
                 clientId: '***',
@@ -136,6 +137,32 @@
             this.errSpotify = err;
             //console.log('Something went wrong!', err);
           });
+      },*/
+
+      getHashParams: function() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+            q = window.location.hash.substring(1);
+            // eslint-disable-next-line
+        while ( e = r.exec(q)) {
+            hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+      },
+      fetchUsers: function() {
+                // eslint-disable-next-line
+        console.log("JE SUIS LA =======================");
+
+            // eslint-disable-next-line
+        var params = getHashParams();
+            // eslint-disable-next-line
+        var access_token = params.access_token,
+            // eslint-disable-next-line
+        refresh_token = params.refresh_token,
+            // eslint-disable-next-line
+        error = params.error;
+        // eslint-disable-next-line
+        console.log(access_token);
       }
     }
   }
