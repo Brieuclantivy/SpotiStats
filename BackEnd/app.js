@@ -11,15 +11,16 @@ app.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser());
 
+  const {userData: userData} = require('./routes/user');
 
 var SpotifyWebApi = require('spotify-web-api-node');
 var stateKey = 'spotify_auth_state';
 var token_API = null;
 
 
-var client_id = '8e093a30593847a9a2a651c25d541d94' // Your client id
-var client_secret = 'b220a109b6234a4499b26376d9df0279'; // Your secret
-var redirect_uri = 'http://localhost:8888/callback';  // Your redirect uri
+var client_id = '***' // Your client id
+var client_secret = '***'; // Your secret
+var redirect_uri = '***';  // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -166,5 +167,8 @@ if (token_API != null) {
         console.log('Something went wrong!', err);
     });
 }
+
+app.get('/api/user/:id', userData);
+
 console.log('Listening on 8888');
 app.listen(8888);

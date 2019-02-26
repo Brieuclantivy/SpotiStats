@@ -73,7 +73,7 @@
 
 
 
-        <v-content>
+    <v-content>
       <v-container fill-height>
         <v-layout justify-center align-center>
             <ul v-if="spotiStats && spotiStats.length">
@@ -154,7 +154,7 @@
         console.log("JE SUIS LA =======================");
 
             // eslint-disable-next-line
-        var params = getHashParams();
+        var params = this.getHashParams();
             // eslint-disable-next-line
         var access_token = params.access_token,
             // eslint-disable-next-line
@@ -163,7 +163,45 @@
         error = params.error;
         // eslint-disable-next-line
         console.log(access_token);
-      }
+        const baseURI = 'http://localhost:8888/api/user/' + access_token;
+        this.$http.get(baseURI)
+        .then((result) => {
+          if (result != null) {
+          // eslint-disable-next-line
+          console.log("RESULTAT : " + (result.items))
+          }
+        })
+  
+       /* if (error) {
+          alert('There was an error during the authentication');
+        } else {
+          if (access_token) {
+            // render oauth info
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token
+            });
+
+          $.ajax({
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function(response) {
+              //userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+              // eslint-disable-next-line
+              console.log("SUCCESS : " + response);
+
+              //$('#login').hide();
+              //$('#loggedin').show();
+            }
+          });
+        } else {
+        // eslint-disable-next-line
+        console.log("-------------ERROR------------");
+        }
+        }*/
     }
   }
+}
 </script>
