@@ -15,9 +15,9 @@ exports.userData = function(req, res) {
     });
     spotifyApi.setAccessToken(token_API);
 
-    spotifyApi.getUserPlaylists("Vango56").then(
+    spotifyApi.getUser("Vango56").then(
       function(data) {
-        res.status(200).send("data.body");
+        res.status(200).send(data.body);
         console.log("Retrieved playlists", data.body);
       },
       function(err) {

@@ -18,9 +18,9 @@ var stateKey = 'spotify_auth_state';
 var token_API = null;
 
 
-var client_id = '***' // Your client id
+var client_id = '***'; // Your client id
 var client_secret = '***'; // Your secret
-var redirect_uri = '***';  // Your redirect uri
+var redirect_uri = '***'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters

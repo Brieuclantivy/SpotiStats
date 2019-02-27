@@ -76,13 +76,32 @@
     <v-content>
       <v-container fill-height>
         <v-layout justify-center align-center>
-            <ul v-if="spotiStats && spotiStats.length">
+          <p><strong>NAME : {{spotiStats.display_name}}</strong></p>
+          <p><strong>Follower : {{spotiStats.items}}</strong></p>
+          <p><strong>id : {{spotiStats.id}}</strong></p>
+          <p><strong>Type : {{spotiStats.type}}</strong></p>
+          <p><strong>Link to your profile : {{spotiStats.href}}</strong></p>
+        <!--        <div v-for="post of spotiStats" :key="post.id">
+          <p><strong>NAME : {{post.name}}</strong></p>
+          <p><strong>Follower : {{post.items}}</strong></p>
+          <p><strong>id : {{post.id}}</strong></p>
+          <p><strong>Type : {{post.type}}</strong></p>
+          <p><strong>Link to your profile : {{post.href}}</strong></p>
+        </div>->
+            ul v-if="spotiStats && spotiStats.length">
               <li v-for="post of spotiStats" :key="post.display_name">
-                <p><strong>{{post.display_name}}</strong></p>
+                <p><strong>NAME : {{post.display_name}}</strong></p>
                 <p>{{post.display_name}}</p>
               </li>
-            </ul>
-
+            </ul>-->
+            <!--div(
+              v-for="user in users"
+              :key="users.id"
+            )
+              h1 {{ user.name }}
+              p {{ user.email }}
+            button(@click="fetchUsers") Click me!
+-->
             <button v-on:click="fetchUsers">Add 1</button>
         </v-layout>
       </v-container>
@@ -95,8 +114,9 @@
   export default {
     data: () => ({
       drawer: null,
-      spotiStats: [],
+      spotiStats: null,
       errSpotify:"",
+      loading: false,
       items: [
         { icon: 'trending_up', text: 'Most Popular' },
         { icon: 'subscriptions', text: 'Subscriptions' },
@@ -114,6 +134,9 @@
     }),
     props: {
       source: String
+    },
+    created: function() {
+      this.fetchUsers();
     },
     methods: {
 
@@ -150,8 +173,6 @@
         return hashParams;
       },
       fetchUsers: function() {
-                // eslint-disable-next-line
-        console.log("JE SUIS LA =======================");
 
             // eslint-disable-next-line
         var params = this.getHashParams();
@@ -164,13 +185,24 @@
         // eslint-disable-next-line
         console.log(access_token);
         const baseURI = 'http://localhost:8888/api/user/' + access_token;
-        this.$http.get(baseURI)
+        fetch(baseURI)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(stats) {
+          // eslint-disable-next-line
+          console.log(stats)
+           this.spotiStats = stats;
+        });
+
+        /*this.$http.get(baseURI)
         .then((result) => {
           if (result != null) {
+          this.spotiStats = result.data;
           // eslint-disable-next-line
-          console.log("RESULTAT : " + (result.items))
+          console.log("RESULTAT : " + ((result.data)))
           }
-        })
+        })*/
   
        /* if (error) {
           alert('There was an error during the authentication');
