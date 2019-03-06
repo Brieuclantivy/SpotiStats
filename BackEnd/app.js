@@ -1,26 +1,22 @@
-var express = require('express'); // Express web server framework
-var request = require('request'); // "Request" library
+var express = require('express');
+var request = require('request');
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 //https://github.com/thelinmichael/spotify-web-api-node#installation
-
 var app = express();
+var stateKey = 'spotify_auth_state';
 
 app.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser());
 
-  const {userData: userData} = require('./routes/user');
+const {userData: userData} = require('./routes/user');
+const config = require('./config');
 
-var SpotifyWebApi = require('spotify-web-api-node');
-var stateKey = 'spotify_auth_state';
-var token_API = null;
-
-
-var client_id = '***'; // Your client id
-var client_secret = '***'; // Your secret
-var redirect_uri = '***'; // Your redirect uri
+client_id = config.client_id;
+client_secret = config.client_secret;
+redirect_uri = config.redirect_uri;
 
 /**
  * Generates a random string containing numbers and letters
@@ -117,56 +113,6 @@ app.get('/callback', function(req, res) {
       });
     }
   });
-
-
-  app.get('/refresh_token', function(req, res) {
-
-    // requesting access token from refresh token
-    var refresh_token = req.query.refresh_token;
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
-      form: {
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token
-      },
-      json: true
-    };
-  
-    request.post(authOptions, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-        var access_token = body.access_token;
-        token_API = access_token;
-        res.send({
-          'access_token': access_token
-        });
-      }
-    });
-  });
-
-
-
-
-
-
-
-// credentials are optional
-var spotifyApi = new SpotifyWebApi({
-        clientId: client_id,
-        clientSecret: client_secret,
-        redirectUri: redirect_uri
-});
-
-if (token_API != null) {
-    spotifyApi.setAccessToken(token_API);
-
-    spotifyApi.getUserPlaylists('Vango56')
-    .then(function(data) {
-        console.log('Retrieved playlists', data.body);
-    },function(err) {
-        console.log('Something went wrong!', err);
-    });
-}
 
 app.get('/api/user/:id', userData);
 

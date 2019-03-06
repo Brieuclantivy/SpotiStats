@@ -4,10 +4,6 @@ exports.userData = function(req, res) {
   let token_API = req.params.id;
 
   if (token_API != null) {
-    var client_id = "***"; // Your client id
-    var client_secret = "***"; // Your secret
-    var redirect_uri = "***"; // Your redirect uri
-
     var spotifyApi = new SpotifyWebApi({
       clientId: client_id,
       clientSecret: client_secret,
@@ -22,7 +18,7 @@ exports.userData = function(req, res) {
       },
       function(err) {
         console.log("Something went wrong!", err);
-        res.status(404).send("Something went wrong : " +  err);
+        res.status(404).send("Something went wrong : " + err);
       }
     );
   }

@@ -1,43 +1,32 @@
 <template>
-  <v-app
-    id="inspire"
-    dark
-  >
-    <v-navigation-drawer
-      v-model="drawer"
-      fixed
-      clipped
-      app
-    >
-    
+  <v-app id="inspire" dark>
+    <v-navigation-drawer v-model="drawer" fixed clipped app>
       <v-list dense>
-    <v-list-tile v-for="item in items" :key="item.text" @click="fetchUsers" >
-            <v-list-tile-action>
+        <v-list-tile v-for="item in items" :key="item.text" @click="fetchUsers">
+          <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>
-              {{ item.text }}
-            </v-list-tile-title>
+            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
           </v-list-tile-content>
-      </v-list-tile>
+        </v-list-tile>
 
         <v-subheader class="mt-3 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
         <v-list>
-          <v-list-tile v-for="item in items2" :key="item.text" avatar >
+          <v-list-tile v-for="item in items2" :key="item.text" avatar>
             <v-list-tile-avatar>
-              <img :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`" alt="">
+              <img :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`" alt>
             </v-list-tile-avatar>
             <v-list-tile-title v-text="item.text"></v-list-tile-title>
           </v-list-tile>
         </v-list>
-        <v-list-tile class="mt-3" >
+        <v-list-tile class="mt-3">
           <v-list-tile-action>
             <v-icon color="grey darken-1">add_circle_outline</v-icon>
           </v-list-tile-action>
           <v-list-tile-title class="grey--text text--darken-1">Browse Channels</v-list-tile-title>
         </v-list-tile>
-        <v-list-tile >
+        <v-list-tile>
           <v-list-tile-action>
             <v-icon color="grey darken-1">settings</v-icon>
           </v-list-tile-action>
@@ -45,13 +34,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar
-      color="red"
-      dense
-      fixed
-      clipped-left
-      app
-    >
+    <v-toolbar color="red" dense fixed clipped-left app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-icon class="mx-3">fab fa-youtube</v-icon>
       <v-toolbar-title class="mr-5 align-center">
@@ -70,18 +53,24 @@
       </v-layout>
     </v-toolbar>
 
-
-
-
     <v-content>
+        <v-container fluid>
+          <v-layout column>
+            <v-flex xs12>
+              <v-layout align-center justify-start row>
+                tot
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-container>
       <v-container fill-height>
         <v-layout justify-center align-center>
-          <p><strong>NAME : {{spotiStats.display_name}}</strong></p>
-          <p><strong>Follower : {{spotiStats.items}}</strong></p>
+           <p><strong>NAME : {{spotiStats.display_name}}</strong></p> <br />
+          <p><strong>Follower : {{spotiStats.items}}</strong> </p> <br />
           <p><strong>id : {{spotiStats.id}}</strong></p>
           <p><strong>Type : {{spotiStats.type}}</strong></p>
           <p><strong>Link to your profile : {{spotiStats.href}}</strong></p>
-        <!--        <div v-for="post of spotiStats" :key="post.id">
+          <!--        <div v-for="post of spotiStats" :key="post.id">
           <p><strong>NAME : {{post.name}}</strong></p>
           <p><strong>Follower : {{post.items}}</strong></p>
           <p><strong>id : {{post.id}}</strong></p>
@@ -93,54 +82,52 @@
                 <p><strong>NAME : {{post.display_name}}</strong></p>
                 <p>{{post.display_name}}</p>
               </li>
-            </ul>-->
-            <!--div(
+          </ul>-->
+          <!--div(
               v-for="user in users"
               :key="users.id"
             )
               h1 {{ user.name }}
               p {{ user.email }}
             button(@click="fetchUsers") Click me!
--->
-            <button v-on:click="fetchUsers">Add 1</button>
+          -->
+          <button v-on:click="fetchUsers">Add 1</button>
         </v-layout>
       </v-container>
     </v-content>
-
   </v-app>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      drawer: null,
-      spotiStats: null,
-      errSpotify:"",
-      loading: false,
-      items: [
-        { icon: 'trending_up', text: 'Most Popular' },
-        { icon: 'subscriptions', text: 'Subscriptions' },
-        { icon: 'history', text: 'History' },
-        { icon: 'featured_play_list', text: 'Playlists' },
-        { icon: 'watch_later', text: 'Watch Later' }
-      ],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' }
-      ]
-    }),
-    props: {
-      source: String
-    },
-    created: function() {
-      this.fetchUsers();
-    },
-    methods: {
-
-      /*fetchUsers: function () {
+export default {
+  data: () => ({
+    drawer: null,
+    spotiStats: [],
+    errSpotify: "",
+    loading: false,
+    items: [
+      { icon: "trending_up", text: "Most Popular" },
+      { icon: "subscriptions", text: "Subscriptions" },
+      { icon: "history", text: "History" },
+      { icon: "featured_play_list", text: "Playlists" },
+      { icon: "watch_later", text: "Watch Later" }
+    ],
+    items2: [
+      { picture: 28, text: "Joseph" },
+      { picture: 38, text: "Apple" },
+      { picture: 48, text: "Xbox Ahoy" },
+      { picture: 58, text: "Nokia" },
+      { picture: 78, text: "MKBHD" }
+    ]
+  }),
+  props: {
+    source: String
+  },
+  created: function() {
+    this.fetchUsers();
+  },
+  methods: {
+    /*fetchUsers: function () {
         var SpotifyWebApi = require('spotify-web-api-node');
         var spotifyApi = new SpotifyWebApi({
                 clientId: '***',
@@ -162,40 +149,44 @@
           });
       },*/
 
-      getHashParams: function() {
-        var hashParams = {};
-        var e, r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-            // eslint-disable-next-line
-        while ( e = r.exec(q)) {
-            hashParams[e[1]] = decodeURIComponent(e[2]);
-        }
-        return hashParams;
-      },
-      fetchUsers: function() {
-
-            // eslint-disable-next-line
-        var params = this.getHashParams();
-            // eslint-disable-next-line
-        var access_token = params.access_token,
-            // eslint-disable-next-line
-        refresh_token = params.refresh_token,
-            // eslint-disable-next-line
-        error = params.error;
+    getHashParams: function() {
+      var hashParams = {};
+      var e,
+        r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+      // eslint-disable-next-line
+      while ((e = r.exec(q))) {
+        hashParams[e[1]] = decodeURIComponent(e[2]);
+      }
+      return hashParams;
+    },
+    fetchUsers: function() {
+      let self = this;
+      // eslint-disable-next-line
+      var params = this.getHashParams();
+      // eslint-disable-next-line
+      var access_token = params.access_token,
         // eslint-disable-next-line
-        console.log(access_token);
-        const baseURI = 'http://localhost:8888/api/user/' + access_token;
-        fetch(baseURI)
+        refresh_token = params.refresh_token,
+        // eslint-disable-next-line
+        error = params.error;
+      // eslint-disable-next-line
+      console.log(access_token);
+      const baseURI = "http://localhost:8888/api/user/" + access_token;
+      fetch(baseURI)
         .then(function(response) {
           return response.json();
         })
         .then(function(stats) {
+          self.spotiStats = stats;
+
           // eslint-disable-next-line
-          console.log(stats)
-           this.spotiStats = stats;
+//          console.log(stats);
+          //if (stats != null) {
+          //this.spotiStats = stats;
         });
 
-        /*this.$http.get(baseURI)
+      /*this.$http.get(baseURI)
         .then((result) => {
           if (result != null) {
           this.spotiStats = result.data;
@@ -203,8 +194,8 @@
           console.log("RESULTAT : " + ((result.data)))
           }
         })*/
-  
-       /* if (error) {
+
+      /* if (error) {
           alert('There was an error during the authentication');
         } else {
           if (access_token) {
@@ -235,5 +226,5 @@
         }*/
     }
   }
-}
+};
 </script>
